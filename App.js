@@ -11,6 +11,11 @@ export default function App() {
   const [time, setTime] = useState(25 * 60);
   const [currentTime, setCurrentTime] = useState("POMO" | "SHORT" | "BREAK");
   const [isActive, setIsActive] = useState(false);
+  const optionsTimes = {
+    0: 25,
+    1: 5,
+    2: 15,
+  };
 
   useEffect(() => {
     let interval = null;
@@ -18,17 +23,16 @@ export default function App() {
     if (isActive) {
       interval = setInterval(() => {
         setTime(time - 1)
-      }, 1000);
+      }, 10);
     }
     else {
       clearInterval(interval);
     }
 
     if (time === 0) {
-      setIsActive(false);
-      setIsWorking((prev) => !prev);
-      setTime(isWorking ? 300 : 1500)
-    }
+	  setIsActive(false);
+	  setTime(optionsTimes[currentTime] * 60);
+  }
  
     return () => clearInterval(interval);
   }, [isActive, time])
